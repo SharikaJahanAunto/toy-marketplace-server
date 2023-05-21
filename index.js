@@ -85,34 +85,34 @@ async function run() {
       
       
       // Update toy details
-      // app.put('/toys/:id', async (req, res) => {
-      //   const { id } = req.params;
-      //   const { toyName, sellerName, sellerEmail, price, rating, quantity, description } = req.body;
-      //   try {
-      //     const updatedToy = await toyCollection.findOneAndUpdate(
-      //       { _id: new ObjectId(id) },
-      //       {
-      //         $set: {
-      //           toyName,
-      //           sellerName,
-      //           sellerEmail,
-      //           price,
-      //           rating,
-      //           quantity,
-      //           description,
-      //         },
-      //       },
-      //       { returnOriginal: false }
-      //     );
-      //     if (!updatedToy.value) {
-      //       return res.status(404).json({ error: 'Toy not found' });
-      //     }
-      //     res.json(updatedToy.value);
-      //   } catch (error) {
-      //     console.error('Error updating toy:', error);
-      //     res.status(500).json({ error: 'Internal server error' });
-      //   }
-      // });
+      app.put('/toys/:id', async (req, res) => {
+        const { id } = req.params;
+        const { toyName, sellerName, sellerEmail, price, rating, quantity, description } = req.body;
+        try {
+          const updatedToy = await toyCollection.findOneAndUpdate(
+            { _id: new ObjectId(id) },
+            {
+              $set: {
+                toyName,
+                sellerName,
+                sellerEmail,
+                price,
+                rating,
+                quantity,
+                description,
+              },
+            },
+            { returnOriginal: false }
+          );
+          if (!updatedToy.value) {
+            return res.status(404).json({ error: 'Toy not found' });
+          }
+          res.json(updatedToy.value);
+        } catch (error) {
+          console.error('Error updating toy:', error);
+          res.status(500).json({ error: 'Internal server error' });
+        }
+      });
       
       // Delete a toy
       app.delete('/toys/:id', async (req, res) => {
