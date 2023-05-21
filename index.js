@@ -54,26 +54,7 @@ async function run() {
         }
       });
       
-      
-      // Create a new toy
-      // app.post('/toys', async (req, res) => {
-      //   const { name, sellerName, sellerEmail, price, rating, quantity, description } = req.body;
-      //   try {
-      //     const newToy = await toyCollection.insertOne({
-      //       name,
-      //       sellerName,
-      //       sellerEmail,
-      //       price,
-      //       rating,
-      //       quantity,
-      //       description,
-      //     });
-      //     res.status(201).json(newToy.ops[0]);
-      //   } catch (error) {
-      //     console.error('Error creating toy:', error);
-      //     res.status(500).json({ error: 'Internal server error' });
-      //   }
-      // });
+    
 
       app.post("/toys", async (req, res) => {
         const toys = req.body;
