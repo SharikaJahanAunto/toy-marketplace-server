@@ -40,20 +40,7 @@ async function run() {
     
 
 
-    app.get('/toys/:id', async (req, res) => {
-        const { id } = req.params;
-        try {
-          const toy = await toyCollection.findOne({ _id: new ObjectId(id) });
-          if (!toy) {
-            return res.status(404).json({ error: 'Toy not found' });
-          }
-          res.json(toy);
-        } catch (error) {
-          console.error('Error fetching toy details:', error);
-          res.status(500).json({ error: 'Internal server error' });
-        }
-      });
-      
+  
     
       // post operation
       app.post("/toys", async (req, res) => {
