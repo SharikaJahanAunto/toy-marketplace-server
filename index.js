@@ -1,8 +1,7 @@
 const express = require('express');
 const cors = require('cors')
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
-const { ObjectId } = require('mongodb');
-
 const app = express()
 const port = process.env.PORT || 5000
 
@@ -10,8 +9,11 @@ const port = process.env.PORT || 5000
 app.use(cors())
 app.use(express.json())
 
+// app.use((req, res, next) => {
+//   res.setHeader('Content-Security-Policy', "default-src 'self' data:; font-src 'self' data:");
+//   next();
+// });
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.a2u17kq.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -26,7 +28,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     
     const toyCollection = client.db('marketPlaceDB').collection('toys')
 
@@ -66,34 +68,34 @@ async function run() {
       
       
       // Update toy details
-      app.put('/toys/:id', async (req, res) => {
-        const { id } = req.params;
-        const { toyName, sellerName, sellerEmail, price, rating, quantity, description } = req.body;
-        try {
-          const updatedToy = await toyCollection.findOneAndUpdate(
-            { _id: new ObjectId(id) },
-            {
-              $set: {
-                toyName,
-                sellerName,
-                sellerEmail,
-                price,
-                rating,
-                quantity,
-                description,
-              },
-            },
-            { returnOriginal: false }
-          );
-          if (!updatedToy.value) {
-            return res.status(404).json({ error: 'Toy not found' });
-          }
-          res.json(updatedToy.value);
-        } catch (error) {
-          console.error('Error updating toy:', error);
-          res.status(500).json({ error: 'Internal server error' });
-        }
-      });
+      // app.put('/toys/:id', async (req, res) => {
+      //   const { id } = req.params;
+      //   const { toyName, sellerName, sellerEmail, price, rating, quantity, description } = req.body;
+      //   try {
+      //     const updatedToy = await toyCollection.findOneAndUpdate(
+      //       { _id: new ObjectId(id) },
+      //       {
+      //         $set: {
+      //           toyName,
+      //           sellerName,
+      //           sellerEmail,
+      //           price,
+      //           rating,
+      //           quantity,
+      //           description,
+      //         },
+      //       },
+      //       { returnOriginal: false }
+      //     );
+      //     if (!updatedToy.value) {
+      //       return res.status(404).json({ error: 'Toy not found' });
+      //     }
+      //     res.json(updatedToy.value);
+      //   } catch (error) {
+      //     console.error('Error updating toy:', error);
+      //     res.status(500).json({ error: 'Internal server error' });
+      //   }
+      // });
       
       // Delete a toy
       app.delete('/toys/:id', async (req, res) => {
@@ -120,8 +122,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
 
 
 app.get('/', (req, res) =>{
