@@ -55,7 +55,7 @@ async function run() {
       });
       
     
-
+      // post operation
       app.post("/toys", async (req, res) => {
         const toys = req.body;
         const result = await toyCollection.insertOne(toys);
@@ -95,20 +95,7 @@ async function run() {
         }
       });
       
-      // Delete a toy
-      app.delete('/toys/:id', async (req, res) => {
-        const { id } = req.params;
-        try {
-          const deletedToy = await toyCollection.findOneAndDelete({ _id: ObjectId(id) });
-          if (!deletedToy.value) {
-            return res.status(404).json({ error: 'Toy not found' });
-          }
-          res.json({ message: 'Toy deleted successfully' });
-        } catch (error) {
-          console.error('Error deleting toy:', error);
-          res.status(500).json({ error: 'Internal server error' });
-        }
-      });
+     
 
 
     // Send a ping to confirm a successful connection
